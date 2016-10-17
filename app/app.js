@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import Navbar from './Navbar';
 
 const App = () => {
   return (
-  <div className='container'>
-    <h1>Hello World!</h1>
+  <div>
+    <div className='container'>
+      <h1>Hello World!</h1>
+    </div>
   </div>
   )
 }

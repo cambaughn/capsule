@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow} = require('electron');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -6,7 +6,12 @@ let win
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({width: 800, height: 600})
+  win = new BrowserWindow({ 
+    width: 850, 
+    height: 1000, 
+    // titleBarStyle: 'hidden', 
+    // frame: false
+  })
 
   // and load the index.html of the app.
   win.loadURL(`file://${__dirname}/index.html`)
@@ -47,3 +52,4 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
