@@ -3,7 +3,7 @@ var path = require('path');
 var config = {
   context: path.join(__dirname, 'app'),
   entry: [
-    './main.js',
+    './app.js',
   ],
   output: {
     path: path.join(__dirname, 'compiled'),
@@ -14,7 +14,10 @@ var config = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loaders: ['babel'],
+        loader: 'babel',
+        query: {
+          presets: ['react', 'es2015']
+        } 
       },
     ],
   },
