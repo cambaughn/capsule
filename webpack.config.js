@@ -1,12 +1,12 @@
 var path = require('path');
  
 var config = {
-  context: path.join(__dirname, 'src'),
+  context: path.join(__dirname, 'app'),
   entry: [
     './main.js',
   ],
   output: {
-    path: path.join(__dirname, 'www'),
+    path: path.join(__dirname, 'compiled'),
     filename: 'bundle.js',
   },
   module: {
@@ -28,5 +28,6 @@ var config = {
       path.join(__dirname, 'node_modules'),
     ],
   },
+  target: 'electron',
 };
 module.exports = config;
