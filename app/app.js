@@ -6,12 +6,24 @@ const App = () => {
   return (
   <div>
     <div className='container'>
-      <h1>Hello World!</h1>
+      <div id='textArea' style={textArea} contentEditable></div>
     </div>
   </div>
   )
 }
 
+const textArea = {
+  color: '#1c1c1c',
+  height: window.innerHeight - 80,
+  width: '90%',
+  marginTop: '30px',
+  WebkitAppearance: 'textArea',
+  backgroundColor: 'transparent',
+  // outline: '0 none',
+}
+
 ReactDOM.render(<App />, document.getElementById('app'))
 
 console.log('Working')
+
+
