@@ -13,7 +13,7 @@ const generateMenu = function() {
       {
         label: 'File',
         submenu: [
-          { label: 'Save', accelerator: "Command+S" },
+          { label: 'Save', accelerator: "Command+S", click: () => { console.log('Saving!'); }},
           { label: 'Save As', accelerator: "Command+Shift+S" }
         ]
       }, 
