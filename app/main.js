@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, dialog } = require('electron');
 const generateMenu = require('./menu');
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -19,6 +19,11 @@ function createWindow () {
 
   // Open the DevTools.
   win.webContents.openDevTools()
+
+  // Emitted when a browserWindow gets focused.
+  win.on('browser-window-focus', () => {
+    document.getElementById('mainInput').focus();
+  })
 
   // Emitted when the window is closed.
   win.on('closed', () => {

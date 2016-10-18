@@ -10,7 +10,7 @@ class App extends Component {
     super(props);
     this.state = { 
       text: '',
-      count: 0
+      save: props.save
     }
   }
 
@@ -22,17 +22,24 @@ class App extends Component {
   }
 
   componentDidMount() {
-    document.getElementById('mainInput').focus();
+    // document.getElementById('mainInput').focus();
+    if (this.state.save) {
+      this.saveFile();
+      // console.log('SAVE PROP: ', this.state.save)
+      this.setState({'save': false})
+      console.log('SAVE PROP: ', this.state.save)
+    }
   }
 
   render() {
     return (
       <div>
         <div className='container'>
-          <div id='mainInput' className= "col-md-offset-1 col-md-10" style={textArea} 
+          <div id='mainInput' className= "col-md-offset-2 col-md-8" style={textArea} 
           onKeyUp={event => {
-            this.setState({'text': event.target.textContent})
-          }} 
+              this.setState({'text': event.target.textContent})
+            }} 
+          value={this.state.text}
           contentEditable></div>
         </div>
       </div>
@@ -44,18 +51,31 @@ setInterval
 
 // Style
 const textArea = {
-  color: '#1c1c1c',
+  color: '#202D3B',
+  fontFamily: "'Merriweather', sans-serif",
+  fontSize: '1.1em',
+  textShadow: '0px 0px 0px #202D3B',
+  WebkitTextFillColor: 'transparent',
+
   height: window.innerHeight - 80,
   width: '100%',
-  marginTop: '30px',
+  marginTop: '40px',
+  lineHeight: '1.7',
+
   WebkitAppearance: 'textArea',
   backgroundColor: 'transparent',
-  fontSize: '1.2em',
   outline: '0 none',
-
 }
 
 // Render component to DOM
-ReactDOM.render(<App />, document.getElementById('app'))
+ReactDOM.render(<App save='false' />, document.getElementById('app'))
 
-module.exports = App;
+export default App;
+
+
+
+
+
+
+
+

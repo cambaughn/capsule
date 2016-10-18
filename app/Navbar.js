@@ -10,7 +10,6 @@ const Navbar = () => {
   )
 }
 
-console.log('Navbar')
 
 const nav = {
   width: '100%',

@@ -1,4 +1,19 @@
-const { Menu } = require('electron');
+const { Menu, dialog } = require('electron');
+const fs = require('fs');
+// import App from './App.js'
+
+
+const saveFile = function() {
+  // console.log(document.getElementById('mainInput').textContent)
+  dialog.showSaveDialog({title: 'Save File'}, (filePath) => {
+    if (filePath) {
+      fs.writeFile(filePath, 'Hello Solar System', (err) => {
+        if (err) return console.log('ERROR => ', err);
+        console.log('It\'s saved from main process!');
+      })
+    }
+  });
+}
 
 const generateMenu = function() {
   const newTemplate = [
@@ -13,7 +28,7 @@ const generateMenu = function() {
       {
         label: 'File',
         submenu: [
-          { label: 'Save', accelerator: "Command+S", click: () => { console.log('Saving!'); }},
+          { label: 'Save', accelerator: "Command+S", click: saveFile },
           { label: 'Save As', accelerator: "Command+Shift+S" }
         ]
       }, 
