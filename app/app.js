@@ -2,14 +2,24 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Navbar from './Navbar';
 
-const App = () => {
-  return (
-  <div>
-    <div className='container'>
-      <div id='textArea' style={textArea} contentEditable></div>
-    </div>
-  </div>
-  )
+class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { 
+      text: ''
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <div className='container'>
+          <div id='textArea' style={textArea} contentEditable></div>
+        </div>
+      </div>
+    )
+  }
 }
 
 const textArea = {
