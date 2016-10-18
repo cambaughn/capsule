@@ -4,6 +4,8 @@ import Navbar from './Navbar';
 import fs from 'fs';
 import _ from 'lodash';
 
+let appText = '';
+
 class App extends Component {
 
   constructor(props) {
@@ -21,14 +23,18 @@ class App extends Component {
     })
   }
 
-  componentDidMount() {
-    // document.getElementById('mainInput').focus();
-    if (this.state.save) {
-      this.saveFile();
-      // console.log('SAVE PROP: ', this.state.save)
-      this.setState({'save': false})
-      console.log('SAVE PROP: ', this.state.save)
-    }
+  // componentDidMount() {
+  //   // document.getElementById('mainInput').focus();
+  //   if (this.state.save) {
+  //     this.saveFile();
+  //     // console.log('SAVE PROP: ', this.state.save)
+  //     this.setState({'save': false})
+  //     console.log('SAVE PROP: ', this.state.save)
+  //   }
+  // }
+
+  componentWillUpdate() {
+    console.log(this.state.text)
   }
 
   render() {
