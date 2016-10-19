@@ -1,5 +1,5 @@
 const { app, BrowserWindow, Menu, dialog } = require('electron');
-const generateMenu = require('./menu');
+const generateMenu = require('./menu').generateMenu;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -18,9 +18,10 @@ function createWindow () {
   win.loadURL(`file://${__dirname}/index.html`)
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 
   // Emitted when a browserWindow gets focused.
+  // TODO: Fix this. I don't think it actually works
   win.on('browser-window-focus', () => {
     document.getElementById('mainInput').focus();
   })
@@ -39,7 +40,6 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createWindow();
-  generateMenu();
 })
 
 // Quit when all windows are closed.

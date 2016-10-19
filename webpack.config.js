@@ -4,7 +4,6 @@ var config = {
   context: path.join(__dirname, 'app'),
   entry: [
     './App.js',
-    './Navbar.js',
   ],
   output: {
     path: path.join(__dirname, 'compiled'),

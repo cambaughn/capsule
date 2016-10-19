@@ -3,64 +3,70 @@ import ReactDOM from 'react-dom';
 import Navbar from './Navbar';
 import fs from 'fs';
 import _ from 'lodash';
+const { remote } = require('electron')
+const { Menu, MenuItem, dialog } = remote
 
-let appText = '';
 
 class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       text: '',
       save: props.save
     }
+
+    generateMenu.call(this);
   }
 
   saveFile() {
-    fs.writeFile('./saveTest', this.state.text, (err) => {
-      if (err) return console.log('ERROR => ', err);
-      console.log('It\'s saved!');
-    })
+    dialog.showSaveDialog({title: 'Save File'}, (filePath) => {
+      if (filePath) {
+        fs.writeFile(filePath + '.txt', this.state.text, (err) => {
+          if (err) return console.log('ERROR => ', err);
+          console.log('It\'s saved!');
+        })
+      }
+    });
   }
 
-  // componentDidMount() {
-  //   // document.getElementById('mainInput').focus();
-  //   if (this.state.save) {
-  //     this.saveFile();
-  //     // console.log('SAVE PROP: ', this.state.save)
-  //     this.setState({'save': false})
-  //     console.log('SAVE PROP: ', this.state.save)
-  //   }
-  // }
-
-  componentWillUpdate() {
-    console.log(this.state.text)
+  openFile() {
+    dialog.showOpenDialog({properties: ['openFile']}, (filePath) => {
+      console.log('File path =>', filePath)
+      fs.readFile(filePath[0], 'utf8', (err, data) => {
+        console.log('I GOT THE DATAS => ', data)
+        if (err) throw err;
+        this.setState({'text': data})
+        console.log('State! =>', this.state.text)
+      });
+    })
   }
 
   render() {
     return (
       <div>
         <div className='container'>
-          <div id='mainInput' className= "col-md-offset-2 col-md-8" style={textArea} 
+          <div id='mainInput' className= "col-md-offset-3 col-md-6" style={textArea} 
           onKeyUp={event => {
               this.setState({'text': event.target.textContent})
-            }} 
-          value={this.state.text}
-          contentEditable></div>
+            }}
+          contentEditable>{this.state.text}</div>
         </div>
       </div>
     )
   }
 };
 
-setInterval
 
 // Style
+const darkBlue = '#202D3B'
+const midnightBlue = '#2c3e50'
+const notBlack = '#1c1c1c'
 const textArea = {
-  color: '#202D3B',
+  color: notBlack,
   fontFamily: "'Merriweather', sans-serif",
   fontSize: '1.1em',
-  textShadow: '0px 0px 0px #202D3B',
+  textShadow: `0px 0px 0px ${notBlack}`,
   WebkitTextFillColor: 'transparent',
 
   height: window.innerHeight - 80,
@@ -74,14 +80,80 @@ const textArea = {
 }
 
 // Render component to DOM
-ReactDOM.render(<App save='false' />, document.getElementById('app'))
-
-export default App;
+ReactDOM.render(<App />, document.getElementById('app'))
 
 
 
 
 
+// Menu generation
+function generateMenu() {
+  const newTemplate = [
+      {
+        label: "Application",
+        submenu: [
+            { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
+            { type: "separator" },
+            { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+        ]
+      },
+      {
+        label: 'File',
+        submenu: [
+          { label: 'Open', accelerator: "Command+O", click: this.openFile.bind(this)},
+          { label: 'Save', accelerator: "Command+S", click: this.saveFile.bind(this)},
+          { label: 'Save As', accelerator: "Command+Shift+S" }
+        ]
+      }, 
+      {
+        label: 'Edit',
+        submenu: [
+          { role: 'undo' },
+          { role: 'redo' },
+          { type: 'separator' },
+          { role: 'cut' },
+          { role: 'copy' },
+          { role: 'paste' },
+          { role: 'pasteandmatchstyle' },
+          { role: 'delete' },
+          { role: 'selectall' }
+        ]
+      },
+      {
+        label: 'View',
+        submenu: [
+          {
+            label: 'Reload',
+            accelerator: 'CmdOrCtrl+R',
+            click (item, focusedWindow) {
+              if (focusedWindow) focusedWindow.reload()
+            }
+          },
+          {
+            label: 'Toggle Developer Tools',
+            accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+            click (item, focusedWindow) {
+              if (focusedWindow) focusedWindow.webContents.toggleDevTools()
+            }
+          },
+          { type: 'separator' },
+          { role: 'resetzoom' },
+          { role: 'zoomin' },
+          { role: 'zoomout' },
+          { type: 'separator' },
+          { role: 'togglefullscreen' }
+        ]
+      },
+      {
+        role: 'window',
+        submenu: [
+          { role: 'minimize' },
+          { role: 'close' }
+        ]
+      },
+    ];
 
 
-
+  const menu = Menu.buildFromTemplate(newTemplate)
+  Menu.setApplicationMenu(menu)  
+}
